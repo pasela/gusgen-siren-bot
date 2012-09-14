@@ -16,6 +16,7 @@ class GusgenSirenBot
       init_twitter(@conf)
     rescue => e
       logger.error "failed to initialize twitter: #{e}"
+      raise
     end
   end
 
@@ -55,7 +56,25 @@ class GusgenSirenBot
   end
 
   def onchangedate(vana_time)
-    puts "siren at #{vana_time}(#{vana_time.to_earth_time})"
+    begin
+      tweet = @twitter.update(create_tweet(vana_time))
+      logger.debug "tweet: id=#{tweet.id}, created_at=#{tweet.created_at}, text=\"#{tweet.text}\""
+    rescue => e
+      logger.error "failed to tweet #{vana_time}/#{vana_time.to_earth_time}: #{e}"
+      raise
+    end
+  end
+
+  def create_tweet(vana_time)
+    vana_info = "(%s)" % format_vana_time(vana_time)
+    "ウゥーーーーーーーーーーーーーーー\n#{vana_info}"
+  end
+
+  def format_vana_time(vana_time)
+    str = '天晶暦%s %s %s' % [vana_time.strftime('%Y/%m/%d %H:%M:%S'),
+                              Vanadiel::Day::DAYNAMES_JA[vana_time.wday],
+                              Vanadiel::Moon::MOONNAMES_JA[vana_time.moon_age]]
+    str
   end
 
   def update_last_date(vana_time)
