@@ -54,7 +54,8 @@ OptionParser.new { |opts|
 if FileTest.exist?(OPTS[:conf])
   conf = YAML.load_file(OPTS[:conf])
 else
-  conf = {}
+  puts "Cannot find configuration file."
+  exit 1
 end
 
 GusgenSirenBot.new(conf).run
