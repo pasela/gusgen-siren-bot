@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'vanadiel/time'
+require 'twitter'
 require_relative 'mixin_logger'
 
 class GusgenSirenBot
@@ -11,6 +12,11 @@ class GusgenSirenBot
   def initialize(conf)
     @conf = conf
     init_logger(@conf)
+    begin
+      init_twitter(@conf)
+    rescue => e
+      logger.error "failed to initialize twitter: #{e}"
+    end
   end
 
   def run
@@ -35,6 +41,18 @@ class GusgenSirenBot
   end
 
   private
+
+  def init_twitter(conf)
+    @twitter = Twitter::Client.new(
+      :consumer_key       => conf['oauth']['consumer_key'],
+      :consumer_secret    => conf['oauth']['consumer_secret'],
+      :oauth_token        => conf['oauth']['access_token'],
+      :oauth_token_secret => conf['oauth']['access_token_secret']
+    )
+
+    user = @twitter.verify_credentials
+    logger.info "verify_credentials ...ok (id=#{user.id}, screen_name=#{user.screen_name})"
+  end
 
   def onchangedate(vana_time)
     puts "siren at #{vana_time}(#{vana_time.to_earth_time})"
