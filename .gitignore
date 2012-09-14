@@ -4,3 +4,4 @@ vendor/
 log/*
 !log/empty
 gusgen_siren_bot.yaml
+gusgen_siren_bot.pid
