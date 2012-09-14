@@ -37,7 +37,9 @@ class GusgenSirenBot
       tomorrow = vana_time + (24 * 60 * 60)
       next_time = Vanadiel::Time.new(tomorrow.year, tomorrow.mon, tomorrow.day)
       logger.info "next time = #{next_time}(#{next_time.to_earth_time})"
-      sleep(next_time.to_earth_time - vana_time.to_earth_time)
+
+      interval = next_time.to_earth_time - vana_time.to_earth_time
+      sleep(interval >= 1 ? interval / 2 : interval)
     end
   end
 
