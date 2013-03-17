@@ -1,4 +1,4 @@
 source :rubygems
 
-gem "vanadiel-time"
+gem "vanadiel-time", "~> 0.2"
 gem "twitter", "~> 4.0"

@@ -31,7 +31,15 @@ class GusgenSirenBot
 
       if date_changed?(vana_time)
         update_last_date(vana_time)
-        onchangedate(vana_time)
+
+        limit_time = Vanadiel::Time.new(vana_time.year, vana_time.month, vana_time.mday, 1)
+        begin
+          try_until(vana_time, limit_time) do |vt|
+            onchangedate(vt)
+          end
+        rescue => e
+          logger.error "retry over: #{e}"
+        end
       end
 
       tomorrow = vana_time + (24 * 60 * 60)
@@ -87,5 +95,19 @@ class GusgenSirenBot
   def date_changed?(vana_time)
     vana_date = vana_time.strftime(DATE_FORMAT)
     (@last_date.nil? || vana_date > @last_date) && (vana_time.hour == 0 && vana_time.min == 0)
+  end
+
+  def try_until(vt, limit, sleep_time = 60)
+    begin
+      yield vt
+    rescue
+      if vt < limit
+        sleep sleep_time
+        vt = Vanadiel::Time.now
+        retry if vt <= limit
+      else
+        raise
+      end
+    end
   end
 end
