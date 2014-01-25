@@ -56,9 +56,9 @@ class GusgenSirenBot
 
   def init_twitter(conf)
     @twitter = Twitter::REST::Client.new do |config|
-      config.consumer_key       = conf['oauth']['consumer_key'],
-      config.consumer_secret    = conf['oauth']['consumer_secret'],
-      config.oauth_token        = conf['oauth']['access_token'],
+      config.consumer_key       = conf['oauth']['consumer_key']
+      config.consumer_secret    = conf['oauth']['consumer_secret']
+      config.oauth_token        = conf['oauth']['access_token']
       config.oauth_token_secret = conf['oauth']['access_token_secret']
     end
 
