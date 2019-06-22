@@ -44,7 +44,7 @@ PLATFORMS
 
 DEPENDENCIES
   twitter (~> 6.2)
-  vanadiel-time (~> 0.2)
+  vanadiel-time (~> 0.2.1)
 
 BUNDLED WITH
-   1.16.6
+   2.0.2
