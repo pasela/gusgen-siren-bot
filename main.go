@@ -57,7 +57,7 @@ func run(cfg Config) {
 	defer logger.Println("Stop")
 
 	notifier := initNotifier(cfg, logger)
-	app := NewApp(notifier, logger)
+	app := NewApp(vanatime.Day, notifier, logger)
 
 	var once sync.Once
 	cancel := sig.Handle(func(sig os.Signal) {

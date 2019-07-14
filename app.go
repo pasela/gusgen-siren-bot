@@ -16,9 +16,9 @@ type App struct {
 	done     chan struct{}
 }
 
-func NewApp(notifier notifier.Notifier, logger *log.Logger) *App {
+func NewApp(interval vanatime.Duration, notifier notifier.Notifier, logger *log.Logger) *App {
 	app := &App{
-		ticker:   timer.NewTicker(),
+		ticker:   timer.NewTicker(interval),
 		notifier: notifier,
 		logger:   logger,
 		done:     make(chan struct{}),

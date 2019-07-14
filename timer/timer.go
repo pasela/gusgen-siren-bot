@@ -7,8 +7,9 @@ import (
 )
 
 type Ticker struct {
-	C    <-chan vanatime.Time
-	Next vanatime.Time
+	C        <-chan vanatime.Time
+	Next     vanatime.Time
+	Interval vanatime.Duration
 
 	c     chan<- vanatime.Time
 	timer *vanatime.Timer
@@ -16,17 +17,18 @@ type Ticker struct {
 	wg    sync.WaitGroup
 }
 
-func NewTicker() *Ticker {
-	next := nextTime()
+func NewTicker(interval vanatime.Duration) *Ticker {
+	next := nextTime(interval)
 	timer := vanatime.NewTimer(next.Sub(vanatime.Now()))
 	c := make(chan vanatime.Time)
 
 	ticker := &Ticker{
-		C:     c,
-		Next:  next,
-		c:     c,
-		timer: timer,
-		stop:  make(chan struct{}),
+		C:        c,
+		Next:     next,
+		Interval: interval,
+		c:        c,
+		timer:    timer,
+		stop:     make(chan struct{}),
 	}
 
 	ticker.start()
@@ -56,12 +58,12 @@ func (t *Ticker) start() {
 	}()
 }
 
-func nextTime() vanatime.Time {
-	return vanatime.Now().AddDate(0, 0, 1).Truncate(vanatime.Day)
+func nextTime(d vanatime.Duration) vanatime.Time {
+	return vanatime.Now().Add(d).Truncate(d)
 }
 
 func (t *Ticker) update() {
-	next := nextTime()
+	next := nextTime(t.Interval)
 	d := next.Sub(vanatime.Now())
 	t.Next = next
 	t.timer.Reset(d)
