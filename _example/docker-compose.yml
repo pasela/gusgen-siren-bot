@@ -4,7 +4,7 @@ services:
 
     gusgen-siren-bot:
         image: gusgen-siren-bot:latest
-        build: .
+        build: ../
         restart: unless-stopped
         environment:
             - NOTIFIER=stdout
