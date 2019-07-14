@@ -31,8 +31,15 @@ func (c *Config) PFlags() *pflag.FlagSet {
 func (c *Config) Viper() *viper.Viper {
 	v := viper.New()
 
-	v.SetConfigName("gusgen-siren-bot")
-	v.AddConfigPath(".")
+	conf := os.Getenv("GUSGEN_SIREN_BOT_CONF")
+	if conf != "" {
+		v.SetConfigFile(conf)
+	} else {
+		v.SetConfigName("gusgen-siren-bot")
+		v.AddConfigPath(".")
+		v.AddConfigPath("./conf")
+	}
+
 	v.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))
 
 	v.SetDefault("notifier", "stdout")
