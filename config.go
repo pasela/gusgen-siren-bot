@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+const ENV_CONF = "GUSGEN_SIREN_BOT_CONF"
+
 type Config struct {
 	Notifier string        `mapstructure:"notifier"`
 	Twitter  TwitterConfig `mapstructure:"twitter"`
@@ -31,7 +33,7 @@ func (c *Config) PFlags() *pflag.FlagSet {
 func (c *Config) Viper() *viper.Viper {
 	v := viper.New()
 
-	conf := os.Getenv("GUSGEN_SIREN_BOT_CONF")
+	conf := os.Getenv(ENV_CONF)
 	if conf != "" {
 		v.SetConfigFile(conf)
 	} else {
@@ -62,8 +64,13 @@ func InitConfig() Config {
 	v := cfg.Viper()
 	v.BindPFlags(f)
 
+	conf := os.Getenv(ENV_CONF)
 	if err := v.ReadInConfig(); err != nil {
-		panic(err)
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok && conf == "" {
+			// ignore
+		} else {
+			panic(err)
+		}
 	}
 
 	v.Unmarshal(&cfg)
