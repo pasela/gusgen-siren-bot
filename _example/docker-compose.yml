@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+
+    gusgen-siren-bot:
+        image: gusgen-siren-bot:latest
+        build: ../
+        restart: unless-stopped
+        environment:
+            - NOTIFIER=stdout
+            # - NOTIFIER=twitter
+            # - TWITTER_CONSUMER_KEY=
+            # - TWITTER_CONSUMER_SECRET=
+            # - TWITTER_ACCESS_TOKEN=
+            # - TWITTER_ACCESS_SECRET=
+            - TZ=Asia/Tokyo
