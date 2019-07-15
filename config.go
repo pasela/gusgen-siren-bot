@@ -38,8 +38,8 @@ func (c *Config) Viper() *viper.Viper {
 		v.SetConfigFile(conf)
 	} else {
 		v.SetConfigName("gusgen-siren-bot")
-		v.AddConfigPath(".")
 		v.AddConfigPath("./conf")
+		v.AddConfigPath(".")
 	}
 
 	v.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))
