@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>グスゲン鉱山のサイレンbot</title>
+    <link rel="stylesheet" href="reset.css" type="text/css"  />
+    <link rel="stylesheet" href="general.css" type="text/css"  />
+    <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  </head>
+
+  <body>
+    <div id="outerwrapper">
+
+      <div class="row">
+        <div class="col col_12">
+          <div class="contentboxes">
+            <h1>グスゲン鉱山のサイレンbot</h1>
+            <p>グスゲン鉱山で毎晩0時〜2時<sup class="fnref"><a href="#fn1" id="r1">[1]</a></sup>に鳴るサイレンのbot。<a href="https://twitter.com/Noon_Siren_bot">田舎の昼のサイレンbot</a>にインスパイアされて作りました。</p>
+            <p>FINAL FANTASY XIの世界であるヴァナ・ディールの毎日0時に淡々とサイレンをツイートします。それだけです。<br />
+            ヴァナ・ディールの1日は地球時間でおよそ1時間<sup class="fnref"><a href="#fn2" id="r2">[2]</a></sup>なので、田舎の昼のサイレンbotに比べるとかなり高頻度で少し鬱陶しいかもしれません。ご利用は計画的に。</p>
+
+            <p><a href="https://twitter.com/GusgenSirenBot">&raquo;グスゲン鉱山のサイレンbot</a></p>
+
+            <div class="footnotes">
+              <p id="fn1"><a href="#r1">[1]</a> 00:00、01:00、02:00のいずれかの時間に鳴るらしいです。</p>
+              <p id="fn2"><a href="#r2">[2]</a> 地球時間57分36秒</p>
+            </div>
+          </div>
+
+          <!--
+          <div class="contentboxes">
+            <h2>ステータス</h2>
+            <p>botのステータスとか表示させようかな</p>
+          </div>
+          -->
+        </div>
+
+        <div class="col col_4">
+          <div class="imageboxes">
+            <a href="https://twitter.com/GusgenSirenBot"><img src="images/ghost-cutout.png" width="150" height="150" /><br />ゴーストさん</a>
+          </div>
+          <p class="menuboxes">作った人：<a href="https://twitter.com/pasela">@pasela</a></p>
+          <!--
+          <p class="menuboxes"><img src="images/home.png" alt="home"> <a href="#">Home</a></p>
+          <p class="menuboxes"><img src="images/box.png" alt="box"> <a href="#">Menu item 1</a></p>
+          <p class="menuboxes"><img src="images/portfolio.png" alt="folio"> <a href="#">Menu item 2</a></p>
+          <p class="menuboxes"><img src="images/stationery.png" alt="design"> <a href="#">Menu item 3</a></p>
+          <p class="menuboxes"><img src="images/user.png" alt="user login"> <a href="#">Menu item 4</a></p>
+          -->
+        </div>
+      </div>
+    </div><!-- end outerwrapper -->
+
+    <script type="text/javascript">
+      function footnotes() {
+        var refs = document.querySelectorAll('.fnref a');
+        for (var i = 0; i < refs.length; i++) {
+          var note = document.getElementById(refs[i].getAttribute('href').substr(1));
+          if (note && /^\[\d+\]\s*(.+)/.test(note.textContent)) {
+            refs[i].setAttribute('title', RegExp.$1);
+          }
+        }
+      }
+      footnotes();
+    </script>
+
+    <!-- Free template created for and provided by http://freehtml5templates.com thanks to designer Pam Atkins-->
+  </body>
+</html>
