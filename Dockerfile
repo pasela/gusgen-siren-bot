@@ -1,26 +1,24 @@
-FROM golang:alpine AS builder
+FROM golang:1.19 AS builder
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache g++ git
+RUN apt-get update && apt-get install -y \
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY go.mod go.sum /app/gusgen-siren-bot/
-RUN cd /app/gusgen-siren-bot && go mod download
+WORKDIR /usr/src/app
 
-COPY . /app/gusgen-siren-bot
-WORKDIR /app/gusgen-siren-bot
-RUN go build -a -ldflags="-s -w"
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
+
+COPY . .
+RUN go build -v -a -ldflags="-s -w" -trimpath
 
 #----------------------------------------
 
-FROM golang:alpine
+FROM golang:1.19
 LABEL maintainer="Yuki <paselan@gmail.com>"
 
-# zoneinfo and certificates
-# ENV ZONEINFO=/zoneinfo.zip
-# ADD https://github.com/golang/go/raw/master/lib/time/zoneinfo.zip /zoneinfo.zip
-# COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-
-COPY --from=builder /app/gusgen-siren-bot/gusgen-siren-bot /gusgen-siren-bot
+COPY --from=builder /usr/src/app/gusgen-siren-bot /gusgen-siren-bot
 
 WORKDIR /
 
