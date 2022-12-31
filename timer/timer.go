@@ -44,8 +44,8 @@ func (t *Ticker) start() {
 			select {
 			case value, ok := <-t.timer.C:
 				if ok {
-					t.c <- value
 					t.update()
+					t.c <- value
 				} else {
 					close(t.c)
 					return
